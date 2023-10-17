@@ -19,17 +19,21 @@ clamavMirror:
   #  clamavMirror.version -- The clamav-mirror docker image version - defaults to .Chart.appVersion
   version: ""
   # clamavMirror.resources -- The resource requests and limits for the clamav-http service
-  resources:   
+  resources:
     requests:
       cpu: 400m
       memory: 1000M
     limits:
       cpu: 800m
       memory: 2000M
+  # clamavMirror.nodeSelector -- The node selector for the clamav-mirror service
+  nodeSelector: {}
+  # clamavMirror.tolerations -- The tolerations for the clamav-mirror service
+  tolerations: []
   cvdUpdate:
     # clamavmirror.cvdUpdate.cvdCron -- DNS based check to update the local database, only new are files download
     cvdCron: "*/10 * * * *"
-    # clamavmirror.cvdUpdate.MirrorCron -- Frequency to rsync changes to mirror - defaults to every hour   
+    # clamavmirror.cvdUpdate.MirrorCron -- Frequency to rsync changes to mirror - defaults to every hour
     mirrorCron: "0 * * * *"
   metricsPort: 9090
   volume:
@@ -56,7 +60,7 @@ clamavHTTP:
 
 clamav:
   # clamav.image -- The clamav docker image
-  image: quay.io/ukhomeofficedigital/acp-clamav 
+  image: quay.io/ukhomeofficedigital/acp-clamav
   # clamav.version -- The clamav docker image version - defaults to .Chart.appVersion
   version: ""
   freshclam:
@@ -90,6 +94,10 @@ clamav:
     maxThreads: 10
     # clamav.sendBufTimeout -- This option specifies how long to wait (in milliseconds) if the send buffer is full, keep low to avoid clamd hanging
     sendBufTimeout: 500
+  # clamav.nodeSelector -- The node selector for the clamav-mirror service
+  nodeSelector: {}
+  # clamav.tolerations -- The tolerations for the clamav-mirror service
+  tolerations: []
 
 
   resources:

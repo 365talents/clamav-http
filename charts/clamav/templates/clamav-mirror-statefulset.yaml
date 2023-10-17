@@ -64,6 +64,10 @@ spec:
       - name: config-volume
         configMap:
           name: {{ include "clamav.fullname" . }}-mirror-config
+      nodeSelector:
+        {{- toYaml .Values.clamav.nodeSelector | nindent 8 }}
+      tolerations:
+        {{- toYaml .Values.clamav.tolerations | nindent 8 }}
   volumeClaimTemplates:
   - metadata:
       name: data
