@@ -22,11 +22,18 @@ spec:
         image: "{{ .Values.clamav.image }}:{{ default .Chart.AppVersion .Values.clamav.version }}"
         command: ["/bin/bash", "-c"]
         args:
-          - freshclam -d --stdout --foreground=true >> /proc/1/fd/1 & clamd
+          - clamd
         ports:
         - containerPort: 3310
           name: api
           protocol: TCP
+        lifecycle:
+          postStart:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - freshclam -d --stdout --foreground=true >> /proc/1/fd/1 &
         resources: {{ toYaml .Values.clamav.resources | nindent 10 }}
         volumeMounts:
           - mountPath: /var/lib/clamav
