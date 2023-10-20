@@ -120,22 +120,6 @@ spec:
           - mountPath: /certs
             name: certs
           {{- end }}
-      initContainers:
-      - name: signatures
-        image: "{{ .Values.clamav.image }}:{{ default .Chart.AppVersion .Values.clamav.version }}"
-        # --no-dns prevents failures when upstream mirrors are out of sync and allows us
-        # to use locally tested signatures rather than untested upstream signatures
-        command: ['freshclam', '--stdout', '--no-dns']
-        resources:
-          requests:
-            memory: 1000M
-          limits:
-            memory: 1000M
-        volumeMounts:
-          - mountPath: /var/lib/clamav
-            name: signatures
-          - mountPath: /etc/clamav
-            name: config-volume
       securityContext:
         runAsNonRoot: true
       volumes:
